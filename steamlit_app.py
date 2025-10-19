@@ -13,12 +13,12 @@ st.sidebar.header('Input Features')
 
 # Function to get user input
 def user_input_features():
-    youtube = st.sidebar.slider('YouTube', 0.0, 300.0, 100.0)
-    tiktok = st.sidebar.slider('TikTok', 0.0, 50.0, 25.0)
-    instagram = st.sidebar.slider('Instagram', 0.0, 120.0, 50.0)
-    data = {'youtube': youtube,
-            'tiktok': tiktok,
-            'instagram': instagram}
+    youtube = st.sidebar.text_input('YouTube', '100.0')
+    tiktok = st.sidebar.text_input('TikTok', '25.0')
+    instagram = st.sidebar.text_input('Instagram', '50.0')
+    data = {'youtube': float(youtube),
+            'tiktok': float(tiktok),
+            'instagram': float(instagram)}
     features = pd.DataFrame(data, index=[0])
     return features
 
