@@ -48,8 +48,8 @@ elif input_mode == 'Upload CSV':
 
     if uploaded_file is not None:
         batch_df = pd.read_csv(uploaded_file)
-        st.subheader('Uploaded Data')
-        st.write(batch_df)
+        # st.subheader('Uploaded Data')
+        # st.write(batch_df)
 
         # Predict on the uploaded data
         batch_prediction = loaded_model.predict(batch_df.to_numpy())
