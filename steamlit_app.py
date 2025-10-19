@@ -9,13 +9,13 @@ loaded_model = pickle.load(open(filename, 'rb'))
 
 st.title('Sales Prediction App')
 
-st.sidebar.header('Input Features')
+st.header('Input Features')
 
 # Function to get user input
 def user_input_features():
-    youtube = st.sidebar.text_input('YouTube', '100.0')
-    tiktok = st.sidebar.text_input('TikTok', '25.0')
-    instagram = st.sidebar.text_input('Instagram', '50.0')
+    youtube = st.text_input('YouTube', '100.0')
+    tiktok = st.text_input('TikTok', '25.0')
+    instagram = st.text_input('Instagram', '50.0')
     data = {'youtube': float(youtube),
             'tiktok': float(tiktok),
             'instagram': float(instagram)}
