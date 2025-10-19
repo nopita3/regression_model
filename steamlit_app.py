@@ -17,9 +17,14 @@ if input_mode == 'Manual Input':
 
     # Function to get user input
     def user_input_features():
-        youtube = st.text_input('YouTube', '100.0')
-        tiktok = st.text_input('TikTok', '25.0')
-        instagram = st.text_input('Instagram', '50.0')
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            youtube = st.text_input('YouTube', '100.0')
+        with col2:
+            tiktok = st.text_input('TikTok', '25.0')
+        with col3:
+            instagram = st.text_input('Instagram', '50.0')
+
         data = {'youtube': float(youtube),
                 'tiktok': float(tiktok),
                 'instagram': float(instagram)}
@@ -28,8 +33,8 @@ if input_mode == 'Manual Input':
 
     input_df = user_input_features()
 
-    st.subheader('User Input features')
-    st.write(input_df)
+    # st.subheader('User Input features') # Commented out as requested
+    # st.write(input_df) # Commented out as requested
 
     # Predict using the loaded model
     prediction = loaded_model.predict(input_df.to_numpy())
