@@ -1,3 +1,4 @@
+%%writefile steamlit_app.py
 import streamlit as st
 import pandas as pd
 import pickle
@@ -9,41 +10,46 @@ loaded_model = pickle.load(open(filename, 'rb'))
 
 st.title('Sales Prediction App')
 
-st.header('Input Features')
+st.header('Select Input Mode')
+input_mode = st.radio("Choose your input mode:", ('Manual Input', 'Upload CSV'))
 
-# Function to get user input
-def user_input_features():
-    youtube = st.text_input('YouTube', '100.0')
-    tiktok = st.text_input('TikTok', '25.0')
-    instagram = st.text_input('Instagram', '50.0')
-    data = {'youtube': float(youtube),
-            'tiktok': float(tiktok),
-            'instagram': float(instagram)}
-    features = pd.DataFrame(data, index=[0])
-    return features
+if input_mode == 'Manual Input':
+    st.header('Input Features')
 
-input_df = user_input_features()
+    # Function to get user input
+    def user_input_features():
+        youtube = st.text_input('YouTube', '100.0')
+        tiktok = st.text_input('TikTok', '25.0')
+        instagram = st.text_input('Instagram', '50.0')
+        data = {'youtube': float(youtube),
+                'tiktok': float(tiktok),
+                'instagram': float(instagram)}
+        features = pd.DataFrame(data, index=[0])
+        return features
 
-st.subheader('User Input features')
-st.write(input_df)
+    input_df = user_input_features()
 
-# Predict using the loaded model
-prediction = loaded_model.predict(input_df.to_numpy())
+    st.subheader('User Input features')
+    st.write(input_df)
 
-st.subheader('Prediction (Sales)')
-st.write(prediction)
+    # Predict using the loaded model
+    prediction = loaded_model.predict(input_df.to_numpy())
 
-st.subheader('Upload CSV for Batch Prediction')
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+    st.subheader('Prediction (Sales)')
+    st.write(prediction)
 
-if uploaded_file is not None:
-    batch_df = pd.read_csv(uploaded_file)
-    st.subheader('Uploaded Data')
-    st.write(batch_df)
+elif input_mode == 'Upload CSV':
+    st.subheader('Upload CSV for Batch Prediction')
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
-    # Predict on the uploaded data
-    batch_prediction = loaded_model.predict(batch_df.to_numpy())
+    if uploaded_file is not None:
+        batch_df = pd.read_csv(uploaded_file)
+        st.subheader('Uploaded Data')
+        st.write(batch_df)
 
-    st.subheader('Batch Predictions (Sales)')
-    batch_df['predicted_sales'] = batch_prediction
-    st.write(batch_df)
+        # Predict on the uploaded data
+        batch_prediction = loaded_model.predict(batch_df.to_numpy())
+
+        st.subheader('Batch Predictions (Sales)')
+        batch_df['predicted_sales'] = batch_prediction
+        st.write(batch_df)
